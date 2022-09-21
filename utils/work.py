@@ -1,16 +1,15 @@
 # from yolov5.utils.serial_control import serial_control
+# coding:utf-8
 from utils.serial_control import serial_control
+# from serial_control import serial_control
 import time
 import uuid
 import numpy
 import json
 import functools
 
-
 def cmpy(a, b):
     return a.get("centery")-b.get("centery")
-
-
 class work_space():
     def __init__(self, redis):
         self.ser = serial_control()
@@ -47,7 +46,7 @@ class work_space():
 
         # print("navigation_points:", navigation_points,type(navigation_points))
         # print("vegetable_points:", vegetable_points,type(vegetable_points))
-        if (navigation_points):
+        if navigation_points:
             navigation_points = json.loads(navigation_points)[0]
             print("navigation_points-----------1:",navigation_points)
             navigation_points.sort(key=functools.cmp_to_key(cmpy))
@@ -55,29 +54,29 @@ class work_space():
             last_point_navigation_point = navigation_points[0]
         else:
             last_point_navigation_point = {}
-        if (vegetable_points):
+        if vegetable_points:
             vegetable_points = json.loads(vegetable_points)[0]
         else:
             vegetable_points = []
         # is_working = self.redis.get("is_working")
         print("camera_type:", camera_type)
-        if (camera_type == self.camera_navigation):  # item_navigation_points
+        if camera_type == self.camera_navigation:  # item_navigation_points
             print("-------------------------------------navigation camera----------------------------------------------")
             # if (str(is_working) == "0" or str(is_working) == ""):
-            if (len(last_point_navigation_point) > self.camera_navigation):  # 转弯
+            if len(last_point_navigation_point) > self.camera_navigation:  # 转弯
                 has_turn = self.redis.get("has_turn")
-                if (str(has_turn) == "0" or str(has_turn) == ""):
+                if str(has_turn) == "0" or str(has_turn) == "":
                     self.send("STOP 0")
                     self.turn(last_point_navigation_point)
                     self.redis.set("has_turn", 1)
                 self.send("MF " + str(self.default_speed))
             else:
                 self.send("MF " + str(self.default_speed))
-        elif (camera_type == self.camera_work):  # item_vegetable_points
+        elif camera_type == self.camera_work:  # item_vegetable_points
             print(
                 "-------------------------------------work camera----------------------------------------------")
 
-            if (vegetable_points and len(vegetable_points) > 0):
+            if vegetable_points and len(vegetable_points) > 0:
                 print("vegetable_points:", vegetable_points)
                 done = vegetable_points[0]
                 working_time_out = 3*60
@@ -92,9 +91,9 @@ class work_space():
                 # print("diff", diff)
 
                 # if (is_working == "0" or is_working == 0 or is_working == "" and diff >= 2):
-                if (diff >= 2):
+                if diff >= 2:
                     centery = done["centery"]
-                    if (centery >= 50 and centery <= 150):
+                    if centery >= 50 and centery <= 150:
                         # self.redis.set("is_working", 1, working_time_out)
                         self.redis.set("last_working_time",
                                        time.time(), working_time_out)
@@ -161,9 +160,10 @@ class work_space():
             screenSize = point["screenSize"]
             center_point = screenSize[0]/2
             diff_point_x = centerx-center_point
-            tan = (diff_point_x*unit)/(gap+centery*gap)
+            tan = (diff_point_x*unit)/(gap+centery*unit)
             angle = int(numpy.arctan(tan) * 180.0 / 3.1415926)
             global_angle = self.global_angle
+            print("global_angle:",global_angle)
             cmd_prefix = ""
             target_angle = 90
             if (global_angle <= 90):
@@ -194,6 +194,10 @@ class work_space():
             # 继续前行
             self.send(cmd)
     
-    if __name__ == "__main__":
-        work_space = work_space()
+if __name__ == "__main__":
+    a = [{'id': 0, 'point': [[86, 183], [186, 183], [86, 254], [186, 254]], 'name': 'box', 'time': 1663729243.3790884, 'screenSize': [512, 640], 'centerx': 136.0, 'centery': 218.5, 'center': [136.0, 218.5]}, {'id': 0, 'point': [[292, 78], [354, 78], [292, 126], [354, 126]], 'name': 'box', 'time': 1663729243.3792667, 'screenSize': [512, 640], 'centerx': 323.0, 'centery': 102.0, 'center': [323.0, 102.0]}]
+    from redis_connect import redis_connect
+    redis = redis_connect()
+    b = work_space(redis)
+    b.turn(a)
         

@@ -3,3 +3,4 @@
 *.mp4
 yolov5/runs/*
 .idea/*
+*.log

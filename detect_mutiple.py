@@ -8,13 +8,13 @@ import numpy as np
 import random
 import sys
 import threading
-from utils.redis_connect import redis_connect
+
 from yolov5.camera import LoadStreams, LoadImages
 from yolov5.utils.torch_utils import select_device
 from yolov5.models.experimental import attempt_load
 from yolov5.utils.general import non_max_suppression, scale_coords, check_imshow
 from utils.work import work_space
-
+from utils.redis_connect import redis_connect
 redis = redis_connect()
 
 
