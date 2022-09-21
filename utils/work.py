@@ -15,7 +15,7 @@ class work_space():
         self.ser = serial_control()
         self.global_angle = 90
         self.redis = redis
-        self.default_speed = 15
+        self.default_speed = 20
         self.camera_work = 0
         self.camera_navigation = 1
         print("-------------------------serial_control init-------------------------------------")
