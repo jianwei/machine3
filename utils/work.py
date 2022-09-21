@@ -8,7 +8,8 @@ import functools
 
 
 def cmpy(a, b):
-    return a.get("centery")-b.get("centery")
+    print("a",a)
+    return a[0].get("centery")-b[0].get("centery")
 
 
 class work_space():
@@ -48,8 +49,9 @@ class work_space():
         # print("navigation_points:", navigation_points,type(navigation_points))
         # print("vegetable_points:", vegetable_points,type(vegetable_points))
         if (navigation_points):
-            navigation_points = json.loads(navigation_points)
+            navigation_points = json.loads(navigation_points)[0]
             navigation_points.sort(key=functools.cmp_to_key(cmpy))
+            print("navigation_points:",navigation_points)
             last_point_navigation_point = navigation_points[0]
         else:
             last_point_navigation_point = {}
