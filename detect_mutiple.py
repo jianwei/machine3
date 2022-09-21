@@ -51,7 +51,7 @@ class Darknet(object):
         view_img = check_imshow()
         t0 = time.time()
         work_thread = ""
-        work_obj = work_space(redis)
+        # work_obj = work_space(redis)
         # j=0
         for path, img, img0s, vid_cap in dataset:
             # j+=1
@@ -111,10 +111,9 @@ class Darknet(object):
                 
                 if (work_thread=="" or not(work_thread.is_alive())):
                     print("工作线程不存在，work_and_run")
-                    print("self.work_obj",work_obj)
-                    # work_obj.work_and_run(i)
-                    work_thread = threading.Thread(target=work_obj.work_and_run,args=(i,))
-                    work_thread.start()
+                    # print("self.work_obj",work_obj)
+                    # work_thread = threading.Thread(target=work_obj.work_and_run,args=(i,))
+                    # work_thread.start()
                 else:
                     print("工作线程已经存在，还未执行解释,跳过")
                 

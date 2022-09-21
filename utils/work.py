@@ -194,10 +194,10 @@ class work_space():
             # 继续前行
             self.send(cmd)
     
-if __name__ == "__main__":
-    a = [{'id': 0, 'point': [[86, 183], [186, 183], [86, 254], [186, 254]], 'name': 'box', 'time': 1663729243.3790884, 'screenSize': [512, 640], 'centerx': 136.0, 'centery': 218.5, 'center': [136.0, 218.5]}, {'id': 0, 'point': [[292, 78], [354, 78], [292, 126], [354, 126]], 'name': 'box', 'time': 1663729243.3792667, 'screenSize': [512, 640], 'centerx': 323.0, 'centery': 102.0, 'center': [323.0, 102.0]}]
-    from redis_connect import redis_connect
-    redis = redis_connect()
-    b = work_space(redis)
-    b.turn(a)
+# if __name__ == "__main__":
+#     a = [{'id': 0, 'point': [[86, 183], [186, 183], [86, 254], [186, 254]], 'name': 'box', 'time': 1663729243.3790884, 'screenSize': [512, 640], 'centerx': 136.0, 'centery': 218.5, 'center': [136.0, 218.5]}, {'id': 0, 'point': [[292, 78], [354, 78], [292, 126], [354, 126]], 'name': 'box', 'time': 1663729243.3792667, 'screenSize': [512, 640], 'centerx': 323.0, 'centery': 102.0, 'center': [323.0, 102.0]}]
+#     from redis_connect import redis_connect
+#     redis = redis_connect()
+#     b = work_space(redis)
+#     b.turn(a)
         
