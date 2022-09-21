@@ -193,3 +193,7 @@ class work_space():
             # if(turn_ret==0 or turn_ret=="0") :
             # 继续前行
             self.send(cmd)
+    
+    if __name__ == "__main__":
+        work_space = work_space()
+        
