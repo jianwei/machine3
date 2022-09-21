@@ -4,6 +4,11 @@ import time
 import uuid
 import numpy
 import json
+import functools
+
+
+def cmpy(a, b):
+    return a.get("centery")-b.get("centery")
 
 
 class work_space():
@@ -43,7 +48,9 @@ class work_space():
         # print("navigation_points:", navigation_points,type(navigation_points))
         # print("vegetable_points:", vegetable_points,type(vegetable_points))
         if (navigation_points):
-            last_point_navigation_point = json.loads(navigation_points)[0]
+            navigation_points = json.loads(navigation_points)
+            navigation_points.sort(key=functools.cmp_to_key(cmpy))
+            last_point_navigation_point = navigation_points[0]
         else:
             last_point_navigation_point = {}
         if (vegetable_points):
