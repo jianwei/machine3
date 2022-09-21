@@ -1,7 +1,7 @@
 {
 	"source": "streams.txt",  
 	"weights": "weights/best.pt",
-	"device": "cpu",
+	"device": 0,
 	"imgsz": 640, 
 	"stride": 32, 
 	"conf_thres": 0.35, 
