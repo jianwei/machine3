@@ -8,7 +8,6 @@ import functools
 
 
 def cmpy(a, b):
-    print("a",a)
     return a.get("centery")-b.get("centery")
 
 
@@ -149,9 +148,9 @@ class work_space():
         # box_label = box_label[0]
         # self.redis.set("is_navtion_now", 1)
         # point = box_label["point"]
-        print("-------------------:box_label-begin:-------------------------")
-        print(box_label)
-        print("-------------------:box_label-end:-------------------------")
+        # print("-------------------:box_label-begin:-------------------------")
+        # print(box_label)
+        # print("-------------------:box_label-end:-------------------------")
         point = box_label[0]
         unit = 0.0386  # 1 pint 0.0386cm
         gap = 30  # cm 导航摄像头的视野盲区
