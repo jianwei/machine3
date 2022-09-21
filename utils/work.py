@@ -49,10 +49,10 @@ class work_space():
         # print("navigation_points:", navigation_points,type(navigation_points))
         # print("vegetable_points:", vegetable_points,type(vegetable_points))
         if (navigation_points):
-            navigation_points = json.loads(navigation_points)
-            print("navigation_points-----------:",navigation_points)
+            navigation_points = json.loads(navigation_points)[0]
+            print("navigation_points-----------1:",navigation_points)
             navigation_points.sort(key=functools.cmp_to_key(cmpy))
-            print("navigation_points2:",navigation_points)
+            print("navigation_points-----------2:",navigation_points)
             last_point_navigation_point = navigation_points[0]
         else:
             last_point_navigation_point = {}
