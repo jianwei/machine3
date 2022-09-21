@@ -1,0 +1,4 @@
+
+*.pyc
+*.mp4
+yolov5/runs/*
