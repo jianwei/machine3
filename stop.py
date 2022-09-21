@@ -18,7 +18,9 @@ def main(cmd):
 
 if __name__ == "__main__":
     try:
-        main("STOP 0.")
+        main("TL 15.")
+        # main("STOP 0.")
+        # main("STOP 0.")
     except KeyboardInterrupt:
         print("ctrl+c stop")
         ser.close()
