@@ -106,7 +106,7 @@ def run(
     if webcam:
         show_vid = check_imshow()
         cudnn.benchmark = True  # set True to speed up constant image size inference
-        dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt,camera_device=int(camera_device)
+        dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt,camera_device=int(camera_device))
         nr_sources = len(dataset)
     else:
         dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt)
