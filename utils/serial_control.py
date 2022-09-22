@@ -49,8 +49,9 @@ class serial_control():
             cmd = None
             self.logger.info("Lost message:%s", message)
         uuid = message["uuid"]
-        # print("cmd:",cmd)
+        print("send_cmd--cmd1:",cmd)
         if (cmd):
+            print("send_cmd--cmd2:",cmd)
             self.logger.info("cmd:%s,begin_time:%s",cmd,time.time())
             self.ser.write(cmd.encode())
             self.logger.info("cmd:end write:%s",time.time())
