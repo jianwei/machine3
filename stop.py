@@ -14,6 +14,7 @@ def main(cmd):
         "cmd": cmd,
         "from": "camera",
     }
+    print("cmd_dict",cmd_dict)
     ser.send_cmd(cmd_dict)
     print(ser.get_ret())
 
