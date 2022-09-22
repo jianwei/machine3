@@ -9,6 +9,7 @@ ser = serial_control()
 
 
 def main(cmd):
+    cmd =cmd+"."
     cmd_dict = {
         "uuid": str(uuid.uuid1()),
         "cmd": cmd,
