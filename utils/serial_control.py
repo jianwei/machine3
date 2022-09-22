@@ -65,6 +65,7 @@ class serial_control():
                     print("time0-1:",time0)
                     cnt+=1
                     time1 = float(time.time())
+                    print("time0-2:",time1)
                     response = self.ser.read()
                     print("response:",response)
                     time2 = float(time.time())
