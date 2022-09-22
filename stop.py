@@ -3,6 +3,7 @@
 
 import uuid
 from utils.serial_control import serial_control
+import sys
 ser = serial_control()
 
 def main(cmd):
@@ -18,10 +19,20 @@ def main(cmd):
 
 if __name__ == "__main__":
     try:
-        main("TL 90.")
+        arg = sys.argv[1]
+        cmd = ""
+        if (int(arg)==1):
+            cmd = "MF 15"
+        elif (int(arg)==2):
+            cmd = "TL 15"
+        else:
+            cmd = "STOP 0"
+        print(cmd)
+        main(cmd)
+        # main("TL 90.")
         # main("STOP 0.")
         # main("STOP 0.")
     except KeyboardInterrupt:
         print("ctrl+c stop")
-        ser.close()
+        # ser.close()
 
