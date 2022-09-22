@@ -310,7 +310,7 @@ class LoadWebcam:  # for inference
 
 class LoadStreams:
     # YOLOv5 streamloader, i.e. `python detect.py --source 'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP streams`
-    def __init__(self, sources='streams.txt', img_size=640, stride=32, auto=True, transforms=None,capture_device=0):
+    def __init__(self, sources='streams.txt', img_size=640, stride=32, auto=True, transforms=None,camera_device=0):
         self.mode = 'stream'
         self.img_size = img_size
         self.stride = stride
@@ -336,7 +336,7 @@ class LoadStreams:
                 assert not is_colab(), '--source 0 webcam unsupported on Colab. Rerun command in a local environment.'
                 assert not is_kaggle(), '--source 0 webcam unsupported on Kaggle. Rerun command in a local environment.'
             # cap = cv2.VideoCapture(s)
-            cap = cv2.VideoCapture(capture_device)
+            cap = cv2.VideoCapture(camera_device)
             assert cap.isOpened(), f'{st}Failed to open {s}'
             w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
             h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
