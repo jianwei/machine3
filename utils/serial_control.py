@@ -52,9 +52,10 @@ class serial_control():
         print("send_cmd--cmd1:",cmd)
         if (cmd):
             print("send_cmd--cmd2:",cmd)
-            self.logger.info("cmd:%s,begin_time:%s",cmd,time.time())
+            # self.logger.info("cmd:%s,begin_time:%s",cmd,time.time())
+            print("cmd:%s,begin_time:%s",cmd,time.time())
             self.ser.write(cmd.encode())
-            self.logger.info("cmd:end write:%s",time.time())
+            print("cmd:end write:%s",time.time())
             try:
                 cnt=1
                 ret_all = ""
@@ -63,7 +64,7 @@ class serial_control():
                     cnt+=1
                     time1 = float(time.time())
                     response = self.ser.read()
-                    # print("response:",response)
+                    print("response:",response)
                     time2 = float(time.time())
                     diff = time2-time1
                     if (response):
