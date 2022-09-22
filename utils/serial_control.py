@@ -60,7 +60,9 @@ class serial_control():
                 cnt=1
                 ret_all = ""
                 time0 = time.time()
+                print("time0:",time0)
                 while True:
+                    print("time0-1:",time0)
                     cnt+=1
                     time1 = float(time.time())
                     response = self.ser.read()
