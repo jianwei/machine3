@@ -88,51 +88,52 @@ class Darknet(object):
         outputs = [None] * nr_sources
         # print("outputs:%s,nr_sources:%s,strongsort_list:%s",outputs,nr_sources,strongsort_list)
 
-
-
         # j=0
         curr_frames, prev_frames = [None] * nr_sources, [None] * nr_sources
+        print("dataset:------", dataset)
+        print("dataset:type------", type(dataset))
         for path, img, img0s, vid_cap in dataset:
-            # j+=1
-            # print("j:",j)
             img = self.preprocess(img)
-
             t1 = time.time()
             pred = self.model(img, augment=self.opt["augment"])[0]  # 0.22s
             pred = pred.float()
+
+            # track
             pred = non_max_suppression(
                 pred, self.opt["conf_thres"], self.opt["iou_thres"], classes=0)
 
             t2 = time.time()
             pred_boxes = []
-            
+            # track end
             for i, det in enumerate(pred):
-
-                p, s, im0, frame = path[i], '%g: ' % i, img0s[i].copy(), dataset.count
+                if self.webcam:  # batch_size >= 1
+                    p, s, im0, frame = path[i], '%g: ' % i, img0s[i].copy(
+                    ), dataset.count
+                else:
+                    p, s, im0, frame = path, '', img0s, getattr(
+                        dataset, 'frame', 0)
+                # track------------------------1
                 curr_frames[i] = im0
-
-                # print("---------------i------------------",i,prev_frames,prev_frames[i])
                 if cfg.STRONGSORT.ECC:  # camera motion compensation
-                    strongsort_list[i].tracker.camera_update(prev_frames[i], curr_frames[i])
+                    strongsort_list[i].tracker.camera_update(
+                        prev_frames[i], curr_frames[i])
                 prev_frames[i] = curr_frames[i]
+                # track------------------------2
 
                 s += '%gx%g ' % img.shape[2:]  # print string
                 # normalization gain whwh
                 gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]
                 if det is not None and len(det):
-                    
+
                     det[:, :4] = scale_coords(
                         img.shape[2:], det[:, :4], im0.shape).round()
 
                     confs = det[:, 4]
                     clss = det[:, 5]
                     xywhs = xyxy2xywh(det[:, 0:4])
-                    
+
                     # id = output[4]
                     # print("outputs:",outputs)
-
-                    
-
 
                     # Print results
                     for c in det[:, -1].unique():
@@ -144,14 +145,16 @@ class Darknet(object):
                     item_vegetable_points = []
                     for *xyxy, conf, cls_id in det:
                         id = None
-                        outputs[i] = strongsort_list[i].update(xywhs.cpu(), confs.cpu(), clss.cpu(), im0)
+                        outputs[i] = strongsort_list[i].update(
+                            xywhs.cpu(), confs.cpu(), clss.cpu(), im0)
                         for j, (output, conf) in enumerate(zip(outputs[i], confs)):
                             id = int(output[4])
                         lbl = self.names[int(cls_id)]
 
                         xyxy = torch.tensor(xyxy).view(1, 4).view(-1).tolist()
                         score = round(conf.tolist(), 3)
-                        label = "cls_id:{},id:{},{}: {}".format(cls_id,id,lbl, score)
+                        label = "cls_id:{},id:{},{}: {}".format(
+                            cls_id, id, lbl, score)
                         x1, y1, x2, y2 = int(xyxy[0]), int(
                             xyxy[1]), int(xyxy[2]), int(xyxy[3])
 
@@ -164,7 +167,8 @@ class Darknet(object):
                             xyxy, lbl, [img.shape[2:][0], img.shape[2:][1]])
 
                         # print("x1, y1, x2, y2:",x1, y1, x2, y2)
-                        print("cls_id,uuid,id:,box_label:",cls_id,id, i, box_label)
+                        print("cls_id,uuid,id:,box_label:",
+                              cls_id, id, i, box_label)
                         if (i == 1):
                             item_navigation_points.append(box_label)
                         else:
@@ -176,20 +180,22 @@ class Darknet(object):
                         self.add_point(item_vegetable_points, 2)
 
                     # prev_frames[i] = curr_frames[i]
-
+                else:
+                    strongsort_list[i].increment_ages()
+                    LOGGER.info('No detections')
 
                 if (work_thread == "" or not (work_thread.is_alive())):
                     print("工作线程不存在，work_and_run")
                     # print("self.work_obj", work_obj)
                     # work_obj.work_and_run(i)
                     # work_thread = threading.Thread(
-                        # target=work_obj.work_and_run, args=(i,))
+                    # target=work_obj.work_and_run, args=(i,))
                     # work_thread.start()
                 else:
                     print("工作线程已经存在，还未执行解释,跳过")
 
                 print(f'{s}Done. ({t2 - t1:.3f}s),fps:{1/(t2-t1)}')
-                
+
                 if view_img:
                     cv2.imshow(str(p), cv2.resize(im0, (800, 600)))
                     if self.webcam:
@@ -197,7 +203,6 @@ class Darknet(object):
                             break
                     else:
                         cv2.waitKey(0)
-                
 
     def add_point(self, item_points, flag):
         max_length = 60*3*20

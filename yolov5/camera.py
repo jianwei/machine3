@@ -205,6 +205,7 @@ class LoadStreams:  # multiple IP or RTSP cameras
         return self
 
     def __next__(self):
+        print("next--")
         self.count += 1
         img0 = self.imgs.copy()
         if cv2.waitKey(1) == ord('q'):  # q to quit
