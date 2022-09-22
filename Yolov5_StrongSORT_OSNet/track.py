@@ -71,6 +71,7 @@ def run(
         half=False,  # use FP16 half-precision inference
         dnn=False,  # use OpenCV DNN for ONNX inference
         eval=False,  # run multi-gpu eval
+        capture_device=0,  # use OpenCV DNN for ONNX inference
 ):
 
     source = str(source)
@@ -105,7 +106,7 @@ def run(
     if webcam:
         show_vid = check_imshow()
         cudnn.benchmark = True  # set True to speed up constant image size inference
-        dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt)
+        dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt,capture_device=int(capture_device)
         nr_sources = len(dataset)
     else:
         dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt)
@@ -314,6 +315,7 @@ def parse_opt():
     parser.add_argument('--half', action='store_true', help='use FP16 half-precision inference')
     parser.add_argument('--dnn', action='store_true', help='use OpenCV DNN for ONNX inference')
     parser.add_argument('--eval', action='store_true', help='run evaluation')
+    parser.add_argument('--capture_device',default=0, type=str, help='capture_device camera number')
     opt = parser.parse_args()
     opt.imgsz *= 2 if len(opt.imgsz) == 1 else 1  # expand
     print_args(vars(opt))
