@@ -42,7 +42,7 @@ class serial_control():
     def send_cmd(self, message):
         ret = -2
         # print("---------------------------------------------------------------------------------------------")
-        # print("message:",message)
+        print("send_cmd--message:",message)
         if ("cmd" in message.keys()):
             cmd = message["cmd"]
         else:
