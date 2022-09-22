@@ -42,32 +42,27 @@ class serial_control():
     def send_cmd(self, message):
         ret = -2
         # print("---------------------------------------------------------------------------------------------")
-        print("send_cmd--message:",message)
+        # print("message:",message)
         if ("cmd" in message.keys()):
             cmd = message["cmd"]
         else:
             cmd = None
             self.logger.info("Lost message:%s", message)
         uuid = message["uuid"]
-        print("send_cmd--cmd1:",cmd)
+        # print("cmd:",cmd)
         if (cmd):
-            print("send_cmd--cmd2:",cmd)
-            # self.logger.info("cmd:%s,begin_time:%s",cmd,time.time())
-            print("cmd:%s,begin_time:%s",cmd,time.time())
+            self.logger.info("cmd:%s,begin_time:%s",cmd,time.time())
             self.ser.write(cmd.encode())
-            print("cmd:end write:%s",time.time())
+            self.logger.info("cmd:end write:%s",time.time())
             try:
                 cnt=1
                 ret_all = ""
                 time0 = time.time()
-                print("time0:",time0)
                 while True:
-                    print("time0-1:",time0)
                     cnt+=1
                     time1 = float(time.time())
-                    print("time0-2:",time1)
                     response = self.ser.read()
-                    print("response:",response)
+                    # print("response:",response)
                     time2 = float(time.time())
                     diff = time2-time1
                     if (response):
